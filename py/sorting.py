@@ -3,21 +3,16 @@ import time
 
 def selection_sort (arr):
     n = len(arr)
-    out = [None] * n
     for i in range(n):        
         p = i
-        for j in range(n):
-            if arr[p] == None:
-                p = j;
-                continue
-                
-            if arr[j] != None and arr[j] < arr[p]:
+        for j in range(i+1, n):
+            if arr[j] < arr[p]:
                 p = j
                 
-        out[i] = arr[p]
-        arr[p] = None
-        
-    return out;
+        tmp = arr[p];
+        arr[p] = arr[i]
+        arr[i] = tmp
+    return arr;
                 
 def pivot_half(arr):
     return int(len(arr) / 2);  
@@ -51,7 +46,7 @@ def is_sorted(arr):
     return all(arr[i] <= arr[i+1] for i in range(len(arr) - 1))
     
 
-def check_sorted(itcount, samplesize, sortfunc, *args):
+def run(itcount, samplesize, sortfunc, *args):
     passed = 0;
     exetime = 0;
     for i in range(itcount):
@@ -76,8 +71,8 @@ def check_sorted(itcount, samplesize, sortfunc, *args):
     print("\tFailed: " + str(itcount - passed) + "\n")
         
 def main():
-    check_sorted(10, 1000, selection_sort)
-    check_sorted(10, 1000, quick_sort, pivot_half)
+    run(10, 1000, selection_sort)
+    run(10, 1000, quick_sort, pivot_half)
     
 if __name__ == "__main__":
     main()
