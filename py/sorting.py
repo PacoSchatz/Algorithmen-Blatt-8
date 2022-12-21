@@ -14,32 +14,37 @@ def selection_sort (arr):
         arr[i] = tmp
     return arr;
                 
-def pivot_half(arr):
-    return int(len(arr) / 2);  
+def pivot_half(arr, start, end):
+    return start + int((end -start) / 2);  
           
 def quick_sort(arr, pivotfunc):
-    if len(arr) <= 1:
-        return arr
     
-    pivot = pivotfunc(arr)
-    
-    aless = []
-    aeq = []
-    agreater = []
-    
-    for i in arr:
-        if i < arr[pivot]:
-            aless.append(i)
-        elif i == arr[pivot]:
-            aeq.append(i)
-        else:
-            agreater.append(i)
+    def _quick_sort(start, end):
+        if(start >= end):
+            return
         
-    return quick_sort(aless, pivotfunc) + aeq + quick_sort(agreater, pivotfunc)
-    
+        p = arr[pivotfunc(arr, start, end)]
+        cur_idx = start;
+        for i in range(start, end):
+            if (arr[i] < p):
+                arr[i], arr[cur_idx] = arr[cur_idx], arr[i]
+                cur_idx += 1
+        
+        mid_start = cur_idx
+        
+        for i in range(cur_idx, end):
+            if(arr[i] == p):
+                arr[i], arr[cur_idx] = arr[cur_idx], arr[i]
+                cur_idx += 1
+                
+        _quick_sort(start, mid_start)
+        _quick_sort(cur_idx, end)
+               
+    _quick_sort(0, len(arr))
+    return arr    
     
 
-def gen_array(size):
+def generate(size):
     return [random.randint(0,size) for _ in range(size)]
         
 def is_sorted(arr):
@@ -50,7 +55,7 @@ def run(itcount, samplesize, sortfunc, *args):
     passed = 0;
     exetime = 0;
     for i in range(itcount):
-        arr = gen_array(samplesize)
+        arr = generate(samplesize)
         
         #use the legacy sort, copy first otherwise the array already is sorted
         arrsorted = arr.copy()
@@ -65,8 +70,8 @@ def run(itcount, samplesize, sortfunc, *args):
         if arrsorted == arr:
             passed += 1
 
-    print("Executed " + sortfunc.__name__ + " " + str(samplesize) + " times with a Array-Size of " + str(samplesize))
-    print("Soring the Array took an avg. of " + str((exetime/samplesize)/1000) + " microseconds")
+    print("Executed " + sortfunc.__name__ + " " + str(itcount) + " times with a Array-Size of " + str(samplesize))
+    print("Soring the Array took an avg. of " + str(exetime/samplesize) + "ns")
     print("\tPassed: " + str(passed))
     print("\tFailed: " + str(itcount - passed) + "\n")
         
