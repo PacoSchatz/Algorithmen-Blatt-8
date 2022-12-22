@@ -56,9 +56,9 @@ static constexpr size_t pivot_half(const std::vector<int>& in, size_t start, siz
   return  start + ((end - start) / 2);
 }
 
-static constexpr size_t pivot_median(const std::vector<int>& in, size_t start, size_t end)
+static  size_t pivot_median(const std::vector<int>& in, size_t start, size_t end)
 {
-  double sum = std::accumulate(in.cbegin() + start, in.cbegin() + start + end, 0);
+  double sum = std::accumulate(in.cbegin() + start, in.cbegin()  + end, 0);
   sum /= (end - start);
   size_t t = start;
   double dt = std::numeric_limits<float>::infinity();
@@ -124,7 +124,7 @@ static void run(size_t itcount, size_t samplesize, const F& sortfunc, Args&& ...
   }
 
   std::cout << "Executed " << typeid(F).name() << " " << itcount << " times with a Array-Size of " << samplesize << std::endl;
-  std::cout << "Soring the Array took an avg. of " << (exetime / samplesize) << "ns" << std::endl;
+  std::cout << "Soring the Array took an avg. of " << (exetime / itcount) << "ns" << std::endl;
   std::cout << "\tPassed: " << passed << std::endl;
   std::cout << "\tFailed: " << itcount - passed << "\n" << std::endl;
 }
