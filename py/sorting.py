@@ -1,6 +1,8 @@
 import random
 import time
-import statistics
+
+import sys
+sys.setrecursionlimit(5000)
 
 def selection_sort (arr):
     n = len(arr)
@@ -50,7 +52,7 @@ def quick_sort(arr, pivotfunc):
             if(arr[i] == p):
                 arr[i], arr[cur_idx] = arr[cur_idx], arr[i]
                 cur_idx += 1
-                
+        
         _quick_sort(start, mid_start)
         _quick_sort(cur_idx, end)
                
@@ -105,11 +107,11 @@ def run(itcount, samplesize, sortfunc, *args):
     print("\tFailed: " + str(itcount - passed) + "\n")
         
 def main():
-    run(10, 10000, selection_sort)
-    run(10, 10000, quick_sort, pivot_half)
-    run(10, 10000, quick_sort, pivot_median)
-    run(10, 10000, quick_sort, pivot_start)
-    run(10, 10000, native_sort)
+    run(1, 10000, selection_sort)
+    run(1, 10000, quick_sort, pivot_half)
+    run(1, 10000, quick_sort, pivot_median)
+    run(1, 10000, quick_sort, pivot_start)
+    run(1, 10000, native_sort)
     
 if __name__ == "__main__":
     main()
