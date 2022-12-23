@@ -1,3 +1,6 @@
 #ignore the build data
-cpp/Build
-cpp/build
+Build
+build
+Output
+
+__pycache__
