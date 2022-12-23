@@ -1,4 +1,9 @@
+import time
+
+
 def selection_sort (arr):
+    start_time = time.time_ns()
+    
     n = len(arr)
     for i in range(n):        
         p = i
@@ -9,6 +14,8 @@ def selection_sort (arr):
         tmp = arr[p];
         arr[p] = arr[i]
         arr[i] = tmp
+        
+    return time.time_ns() - start_time
                 
 def pivot_half(arr, start, end):
     return start + int((end -start) / 2)
@@ -28,6 +35,7 @@ def pivot_median(arr, start, end):
     return t 
           
 def quick_sort(arr, pivotfunc):
+    start_time = time.time_ns()
     
     interval_stack = [[0,len(arr)]]
     while len(interval_stack) != 0:
@@ -52,6 +60,8 @@ def quick_sort(arr, pivotfunc):
         
         interval_stack.append([cur[0], mid])
         interval_stack.append([write_idx, cur[1]])
+    
+    return time.time_ns() - start_time;
                 
 
 def native_sort(arr):
