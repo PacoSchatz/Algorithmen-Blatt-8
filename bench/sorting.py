@@ -11,7 +11,7 @@ def selection_sort (arr):
             if arr[j] < arr[p]:
                 p = j
                 
-        tmp = arr[p];
+        tmp = arr[p]
         arr[p] = arr[i]
         arr[i] = tmp
         
@@ -24,8 +24,8 @@ def pivot_start(arr, start, end):
     return start
 
 def pivot_median(arr, start, end):
-    s = sum(arr) / (end - start);
-    t = start;
+    s = sum(arr) / (end - start)
+    t = start
     dt = float('inf')
     for i in range(start, end):
         d = abs(arr[i] - s)
@@ -45,7 +45,7 @@ def quick_sort(arr, pivotfunc):
             continue
         
         p = arr[pivotfunc(arr, cur[0], cur[1])]
-        write_idx = cur[0];
+        write_idx = cur[0]
         for i in range(write_idx, cur[1]):
             if (arr[i] < p):
                 arr[i], arr[write_idx] = arr[write_idx], arr[i]
@@ -61,9 +61,11 @@ def quick_sort(arr, pivotfunc):
         interval_stack.append([cur[0], mid])
         interval_stack.append([write_idx, cur[1]])
     
-    return time.time_ns() - start_time;
+    return time.time_ns() - start_time
                 
 
 def native_sort(arr):
+    start_time = time.time_ns()
     arr.sort()
+    return time.time_ns() - start_time
     

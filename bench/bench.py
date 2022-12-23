@@ -1,8 +1,8 @@
 import sorting_dll
 import numpy as np
 import sorting
-import seaborn as sns   # zum plotten
-import matplotlib.pyplot as plt #zum plotten
+import matplotlib.pyplot as plt
+import os
 
 def test(func,*args):
     print("Starting Test: " + str(func))
@@ -23,9 +23,10 @@ def bench(itcount, func, *args):
         for i in range(0, itcount):
             arr = np.random.randint(samplesize, dtype=np.intc, size=samplesize)
             avg_time += func(arr, *args)
-        out.append((avg_time / itcount))
+        out.append(int(avg_time / itcount))
+    print("Finished Benchmarking: " + str(func))
     return out
-        
+ 
     
 test(sorting_dll.RunQuickSort)
 test(sorting.selection_sort)
@@ -33,11 +34,27 @@ test(sorting.quick_sort, sorting.pivot_half)
 test(sorting.quick_sort, sorting.pivot_start)
 test(sorting.quick_sort, sorting.pivot_median)
 
+def save_figure(name):
+    plt.xlabel("Array-Length")
+    plt.ylabel("Time in ns")
+    plt.legend(loc='best')
+    plt.title(name)
+    plt.savefig(name +".png",dpi=300)
+    plt.clf()
+    os.startfile(name + ".png")
 
-sns.lineplot(x = sample_sizes, y = bench(1,sorting.selection_sort), linestyle="dashed", marker="o", label="C++ Quicksort") 
-sns.lineplot(x = sample_sizes, y = bench(1,sorting.quick_sort, sorting.pivot_half), linestyle="dashed", marker="o", label="Py Quicksort") 
-plt.title("Plot")    
-plt.legend(loc="best")                                         
-plt.xlabel("Array-Length")                                   
-plt.ylabel("ns")
-plt.show()
+if False:
+    #we reduced the itcount for benchs which take long
+    print("Starting Benching...")
+    plt.plot(sample_sizes, bench(10,sorting.quick_sort, sorting.pivot_half),"--", label="Python Quicksort (half)")
+    save_figure("PythonQuickHalf")
+    plt.plot(sample_sizes, bench(3,sorting.quick_sort, sorting.pivot_median), label="Python Quicksort (median)") #this is really slow.
+    save_figure("PythonQuickMedian")
+    plt.plot(sample_sizes, bench(10,sorting.quick_sort, sorting.pivot_start),"--", label="Python Quicksort (start)")
+    save_figure("PythonQuickStart")
+    plt.plot(sample_sizes, bench(2,sorting.selection_sort),"--", label="Python Selectionsort ")
+    save_figure("PythonSelection")
+
+plt.plot(sample_sizes, bench(30,sorting_dll.RunQuickSort),"--", label="C++ Quicksort")
+plt.plot(sample_sizes, bench(30,sorting.native_sort),"--", label="Python Sort")
+save_figure("PythonVSCpp")
