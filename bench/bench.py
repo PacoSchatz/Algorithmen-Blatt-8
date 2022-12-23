@@ -12,6 +12,7 @@ def test(func,*args):
         assert np.array_equal(arr, arr_sorted)
     
     _test(np.array(dtype=np.intc, object=[1, 2, 3, 4]))
+    _test(np.array(dtype=np.intc, object=[]))
     #add more tests here
     print("\t Passed!")
 
@@ -43,7 +44,7 @@ def save_figure(name):
     plt.clf()
     os.startfile(name + ".png")
 
-if False:
+if True:
     #we reduced the itcount for benchs which take long
     print("Starting Benching...")
     plt.plot(sample_sizes, bench(10,sorting.quick_sort, sorting.pivot_half),"--", label="Python Quicksort (half)")
